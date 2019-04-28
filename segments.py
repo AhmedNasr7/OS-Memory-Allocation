@@ -22,10 +22,12 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
         super(SegmentWindow, self).__init__(parent)
         QMainWindow.__init__(self)
         self.setupUi(self)
+        self.columns_count = 3
+        self.rows_count = 4 # to be changed
+        self.table_width = 390
+        self.table_height = 590
         self.setup_Ui()
         self.init_Buttons()
-        self.columns_count = 3
-        self.rows_count = 4
 
 
 
@@ -33,20 +35,24 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
 
     def setup_Ui(self):
         self.setWindowTitle("Memory Management")
+        self.setup_table()
     
 
-    def create_table(self):
+    def setup_table(self):
      
         self.table.setRowCount(self.rows_count)
         self.table.setColumnCount(self.columns_count)
-
-
-
+        columnsLabels = ['Index', 'Segment Name', 'Size']
+        self.table.setHorizontalHeaderLabels(columnsLabels)
+        self.table.setFixedSize(self.table_width, self.table_height)
+        for i in range(self.columns_count):
+            self.table.setColumnWidth(i, self.table_width/3)
 
 
 
 
 
     def init_Buttons(self):
+        
         pass
 
