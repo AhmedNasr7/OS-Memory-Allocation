@@ -24,6 +24,8 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
         self.setupUi(self)
         self.setup_Ui()
         self.init_Buttons()
+        self.columns_count = 3
+        self.rows_count = 4
 
 
 
@@ -32,6 +34,14 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
     def setup_Ui(self):
         self.setWindowTitle("Memory Management")
     
+
+    def create_table(self):
+     
+        self.table.setRowCount(self.rows_count)
+        self.table.setColumnCount(self.columns_count)
+
+
+
 
 
 
