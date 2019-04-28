@@ -8,6 +8,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget, \
     QPushButton, QCheckBox, QLabel, QLineEdit, QComboBox
 from PyQt5.QtGui import QIcon
+from segments import *
 
 
 
@@ -52,10 +53,14 @@ class MainApp(QMainWindow, FORM_CLASS):
         '''
         Buttons initializations and slots connections goes here
         '''
-        pass
+        self.EnterSegments.clicked.connect(self.goToSegmentsWindow)
 
 
 
+    def goToSegmentsWindow(self):
+        self.segments_window = SegmentWindow()
+        self.segments_window.show()
+        
         
 
 
