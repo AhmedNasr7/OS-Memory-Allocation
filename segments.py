@@ -31,6 +31,10 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
         self.segments_list = [] # the list represents the memory contents of segments.
         self.setup_Ui()
         self.init_Buttons()
+        #self.process_Num += 1
+        #self.processNo_label.setText('Process:   P' + str(self.process_Num))
+
+
         
 
 
@@ -60,6 +64,7 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
         self.addSegments_button.clicked.connect(self.add_segments)
 
 
+    @pyqtSlot()
     def set_segmentsNo(self, segmentsNo):
         self.rows_count = segmentsNo
         self.setup_table()
@@ -78,10 +83,19 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
         # emit signal
         if len(self.segments_list) > 0:
             self.segmentsData_passingSig.emit(self.segments_list)
+            self.processes_Num += 1
         
         else:
-            pass # a code should be added to handle the case with no enought data.
+            pass # a code should be added to handle the case with no enough data.
     
+
+    def set_processesNum(self, num):
+        self.processes_Num = num
+        self.processNo_label.setText('Process:   P' + str(num))
+
+
+        
+
     def clear(self):
           for i in range (self.rows_count):
             self.table.setItem(i, 0, QTableWidgetItem(''))

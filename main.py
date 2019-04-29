@@ -14,8 +14,9 @@ from segments import *
 
 FORM_CLASS, _ = loadUiType(path.join(path.dirname(__file__), "Memory.ui"))
 
-
 class MainApp(QMainWindow, FORM_CLASS):
+
+    process_Num = 0
 
     def __init__(self, parent= None):
         super(MainApp, self).__init__(parent)
@@ -24,10 +25,6 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.setup_Ui()
         self.init_Buttons()
     
-        
-
-
-        
 
 
     def setup_Ui(self):
@@ -64,11 +61,14 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.segments_window = SegmentWindow()
         self.segments_window.set_segmentsNo(segmentsNo)
         self.segments_window.show()
+        self.segments_window.set_processesNum(self.process_Num + 1)
+
         self.segments_window.segmentsData_passingSig.connect(self.receive_segmentsData)
         
     
     def receive_segmentsData(self, segList):
-        print(segList)
+        print(segList) # print as a proof of concept.
+        self.process_Num += 1
         self.segments_window.close()
         
 
