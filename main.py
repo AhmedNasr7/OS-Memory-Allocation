@@ -18,6 +18,7 @@ FORM_CLASS, _ = loadUiType(path.join(path.dirname(__file__), "Memory.ui"))
 class MainApp(QMainWindow, FORM_CLASS):
 
     process_Num = 0
+    segments_list = []
 
     def __init__(self, parent= None):
         super(MainApp, self).__init__(parent)
@@ -69,6 +70,7 @@ class MainApp(QMainWindow, FORM_CLASS):
     
     def receive_segmentsData(self, segList):
         print(segList) # print as a proof of concept.
+        self.segments_list = segList
         self.process_Num += 1
         self.segments_window.close()
         
