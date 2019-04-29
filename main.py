@@ -64,7 +64,12 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.segments_window = SegmentWindow()
         self.segments_window.set_segmentsNo(segmentsNo)
         self.segments_window.show()
+        self.segments_window.segmentsData_passingSig.connect(self.receive_segmentsData)
         
+    
+    def receive_segmentsData(self, segList):
+        print(segList)
+        self.segments_window.close()
         
 
 

@@ -13,8 +13,10 @@ from PyQt5.QtGui import QIcon
 FORM_CLASS,_ = loadUiType(path.join(path.dirname(__file__), "segments.ui"))
 
 
-
 class SegmentWindow(QMainWindow, FORM_CLASS):
+
+
+    segmentsData_passingSig = pyqtSignal('QVariantList')
 
 
 
@@ -26,9 +28,10 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
         self.rows_count = 0 
         self.table_width = 430
         self.table_height = 590
+        self.segments_list = [] # the list represents the memory contents of segments.
         self.setup_Ui()
         self.init_Buttons()
-
+        
 
 
 
@@ -50,18 +53,34 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
 
 
 
-
-
     def init_Buttons(self):
         
         self.cancel_button.clicked.connect(self.cancel)
         self.clear_button.clicked.connect(self.clear)
+        self.addSegments_button.clicked.connect(self.add_segments)
 
 
     def set_segmentsNo(self, segmentsNo):
         self.rows_count = segmentsNo
         self.setup_table()
 
+
+    def add_segments(self):
+        for i in range(self.rows_count):
+            try:
+                name = self.table.takeItem(i, 1).text()
+                size =  int(self.table.takeItem(i, 2).text())
+                segment = [name, size] # color is to be generated here
+                self.segments_list.append(segment)
+            except Exception as e:
+                pass
+        
+        # emit signal
+        if len(self.segments_list) > 0:
+            self.segmentsData_passingSig.emit(self.segments_list)
+        
+        else:
+            pass # a code should be added to handle the case with no enought data.
     
     def clear(self):
           for i in range (self.rows_count):

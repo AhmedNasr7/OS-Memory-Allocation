@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="addSegment_button">
+  <widget class="QPushButton" name="addSegments_button">
    <property name="geometry">
     <rect>
      <x>480</x>
