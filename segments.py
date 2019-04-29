@@ -23,8 +23,8 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.columns_count = 3
-        self.rows_count = 0 # to be changed
-        self.table_width = 390
+        self.rows_count = 0 
+        self.table_width = 430
         self.table_height = 590
         self.setup_Ui()
         self.init_Buttons()
@@ -54,9 +54,21 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
 
     def init_Buttons(self):
         
-        pass
+        self.cancel_button.clicked.connect(self.cancel)
+        self.clear_button.clicked.connect(self.clear)
 
 
     def set_segmentsNo(self, segmentsNo):
         self.rows_count = segmentsNo
         self.setup_table()
+
+    
+    def clear(self):
+          for i in range (self.rows_count):
+            self.table.setItem(i, 0, QTableWidgetItem(''))
+            self.table.setItem(i, 1, QTableWidgetItem(''))
+            self.table.setItem(i, 2, QTableWidgetItem(''))
+
+
+    def cancel(self):
+        self.close()

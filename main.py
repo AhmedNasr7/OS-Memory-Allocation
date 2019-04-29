@@ -23,7 +23,6 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.setupUi(self)
         self.setup_Ui()
         self.init_Buttons()
-        #self.segmentNoSignal = pyqtSignal(int)
     
         
 

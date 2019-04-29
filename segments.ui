@@ -17,13 +17,13 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>40</y>
+     <y>60</y>
      <width>391</width>
      <height>551</height>
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="addSegment_button">
    <property name="geometry">
     <rect>
      <x>480</x>
@@ -36,7 +36,20 @@
     <string>Add Segments</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="cancel_button">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>180</y>
+     <width>151</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="clear_button">
    <property name="geometry">
     <rect>
      <x>480</x>
@@ -46,7 +59,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Cancel</string>
+    <string>Clear</string>
    </property>
   </widget>
  </widget>
