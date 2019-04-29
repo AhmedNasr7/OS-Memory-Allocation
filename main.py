@@ -23,6 +23,7 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.setupUi(self)
         self.setup_Ui()
         self.init_Buttons()
+        #self.segmentNoSignal = pyqtSignal(int)
     
         
 
@@ -36,6 +37,8 @@ class MainApp(QMainWindow, FORM_CLASS):
         '''
         self.center_window()
         self.setWindowTitle("Memory Management")
+        self.NumSegments.setMinimum(0)
+        self.NumSegments.setMaximum(999)
 
         
         
@@ -58,7 +61,9 @@ class MainApp(QMainWindow, FORM_CLASS):
 
 
     def goToSegmentsWindow(self):
+        segmentsNo = self.NumSegments.value()
         self.segments_window = SegmentWindow()
+        self.segments_window.set_segmentsNo(segmentsNo)
         self.segments_window.show()
         
         
