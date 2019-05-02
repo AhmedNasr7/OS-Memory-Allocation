@@ -5,7 +5,6 @@ import hashlib
 def color_from_name(process_name="hole"):
     return hashlib.md5(process_name.encode()).hexdigest()[0:6]
 
-
 def first_fit(segments_list , hole_list ,memory_size):
 
 
@@ -15,6 +14,7 @@ def first_fit(segments_list , hole_list ,memory_size):
     temp_list=[]
     temp=0
     hole=0
+    hole_number=0
     i=0
 
 
@@ -28,7 +28,8 @@ def first_fit(segments_list , hole_list ,memory_size):
             if(segements_list[n][j][1]<=temp_hole_list[k][1]):
 
                     #segement can be put in that hole
-                    temp_list.append([temp_hole_list[k][0],segements_list[n][j][0],segements_list[n][j][1]])#adding process segement
+                    
+                    temp_list.append([temp_hole_list[k][0],"P"+str(n)+":"+segements_list[n][j][0],segements_list[n][j][1]])#adding process segement
                     temp_hole_list[k][1]=temp_hole_list[k][1]-segements_list[n][j][1] #adjusting size in hole list
 
                     if(temp_hole_list[k][1]==0):
@@ -68,7 +69,8 @@ def first_fit(segments_list , hole_list ,memory_size):
                 if(output_list[i-1][0]+output_list[i-1][2]!=hole_list[hole][0]):
                   output_list.append([output_list[i-1][0]+output_list[i-1][2],"Old Process",hole_list[hole][0]-(output_list[i-1][0]+output_list[i-1][2])])
                   i=i+1
-               output_list.append([hole_list[hole][0],"HOLE",hole_list[hole][1]])
+               output_list.append([hole_list[hole][0],"HOLE"+str(hole_number),hole_list[hole][1]])
+               hole_number=hole_number+1
                hole=hole+1
                i=i+1
                 
@@ -86,7 +88,8 @@ def first_fit(segments_list , hole_list ,memory_size):
                 if(output_list[i-1][0]+output_list[i-1][2]!=hole_list[hole][0]):
                   output_list.append([output_list[i-1][0]+output_list[i-1][2],"Old Process",hole_list[hole][0]-(output_list[i-1][0]+output_list[i-1][2])])
                   i=i+1
-            output_list.append([hole_list[hole][0],"HOLE",hole_list[hole][1]])
+            output_list.append([hole_list[hole][0],"HOLE"+str(hole_number),hole_list[hole][1]])
+            hole_number=hole_number+1
             hole=hole+1
             i=i+1
     n=len(output_list)
@@ -94,7 +97,7 @@ def first_fit(segments_list , hole_list ,memory_size):
            starting_address=output_list[n-1][0]+output_list[n-1][2]
            size=memory_size-starting_address
            output_list.append([starting_address,"Old Process",size])
-    return output_list 
+    return output_list
 
 
 
