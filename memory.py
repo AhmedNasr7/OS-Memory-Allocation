@@ -112,33 +112,34 @@ class Memory():
     def best_fit(self):
         pass
 
-    def worst_fit(self, Memory, Segments, process_name="default"):
+    def worst_fit(self, Segments, process_name="default"):
         
         color = self.color_from_name(process_name)
-        error = 0
 
         for segment in Segments:
             Max = 0
-            for i in range(len(Memory)):
-                if(Memory[i][2] > Memory[Max][2] and Memory[i][0] == "hole"):
+            for i in range(len(self.memory_contents)):
+                if(self.memory_contents[i][2] > self.memory_contents[Max][2] and self.memory_contents[i][0] == "hole"):
                     Max = i
             
-            if(Memory[Max][2] < segment[1]):
-                error = 1
-                return Memory, error
+            assert(self.memory_contents[Max][2] >= segment[1])
 
-            Memory.insert(Max, [segment[0], color, segment[1]])
+            self.memory_contents.insert(Max, [segment[0], color, segment[1]])
 
-            if(Memory[Max+1][2] == segment[1]):
-                Memory.pop(Max+1)
+            if(self.memory_contents[Max+1][2] == segment[1]):
+                self.memory_contents.pop(Max+1)
             else:
-                Memory[Max+1][2] = Memory[Max+1][2] - segment[1]
+                self.memory_contents[Max+1][2] = self.memory_contents[Max+1][2] - segment[1]
             
-        
-        return Memory, error
 
     def compact(self):
-        pass
+        holes_sum = 0
+        for hole in self.memory_contents[:]:
+            if(hole[0] == "hole"):
+                holes_sum = holes_sum + hole[2]
+                self.memory_contents.remove(hole)
+            
+        self.memory_contents.insert(0, ["hole", self.color_from_name(), holes_sum])
     
     def add_hole(self, starting_address, hole_size):
         assert(starting_address + hole_size <= self.memory_size)
@@ -163,7 +164,10 @@ class Memory():
         # self.memory_contents.insert[]
     
     def deallocate(self, process_name):
-        pass
+        color = self.color_from_name(process_name)
+        for i in range(len(self.memory_contents)):
+            if(self.memory_contents[i][1] == color):
+                self.memory_contents[i] = ["hole", self.color_from_name(), self.memory_contents[i][2]]
 
 
     def get_memoryContents(self):
@@ -173,12 +177,21 @@ class Memory():
         return self.memory_contents
 
 
-Segments = [["Code", 5],
+# Testing
+Segments = [["Code", 5000],
             ["Data", 90],
             ["Stack", 15]]
 
 memory = Memory(5000)
-memory.add_hole(2000, 3000)
+
+memory.add_hole(2000, 500)
+memory.add_hole(0,700)
+memory.add_hole(1000, 1000)
+
 print(memory.get_memoryContents())
-# Memory, _ = worst_fit(Memory, Segments, "p1")
-# print(Memory, _)
+memory.worst_fit(Segments, "P1")
+print(memory.get_memoryContents())
+memory.deallocate("P1")
+print(memory.get_memoryContents())
+memory.compact()
+print(memory.get_memoryContents())
