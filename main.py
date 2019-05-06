@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QVBoxLayout, QSize
     QPushButton, QCheckBox, QLabel, QLineEdit, QComboBox
 from PyQt5.QtGui import QIcon
 from segments import *
-from algorithms import *
+from memory import *
 
 
 
