@@ -215,7 +215,7 @@ class Memory():
         return self.memory_contents
 
 
-'''
+
 # # Testing
 Segments = [["Code", 5000],
             ["Data", 90],
@@ -236,4 +236,3 @@ memory.deallocate("P1")
 print(memory.get_memoryContents())
 memory.compact()
 print(memory.get_memoryContents())
-'''
