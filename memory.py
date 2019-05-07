@@ -109,8 +109,46 @@ class Memory():
 
 
 
-    def best_fit(self):
-        pass
+    def best_fit(self, segments, process_name):
+        min_size = self.memory_contents[0][2]
+        hole_index = 0
+
+        for segment in segments:
+            segment_size = segment[1]
+            for i in range(self.memory_contents):
+                hole = self.memory_contents[i]
+                if (hole[0] == 'hole'):
+                    hole_size = hole[2]
+                    if ((hole_size >= segment_size) and (hole_size < min_size)):
+                        min_size = hole_size
+                        hole_index = i
+            
+            best_hole = self.memory_contents[hole_index]
+            hole_size = best_hole[2]
+            left_over = segment_size - hole_size
+            if(left_over > 0):
+                best_hole[2] = left_over
+                self.memory_contents[hole_index] = best_hole
+                self.memory_contents.insert(hole_index, [process_name, self.color_from_name(process_name), segment_size])
+            else:
+                self.memory_contents[hole_index] = [process_name, self.color_from_name(process_name), segment_size]
+
+                
+            
+            
+
+                        
+            
+
+                
+
+                
+
+            
+        
+
+        
+        
 
     def worst_fit(self, Segments, process_name="default"):
         
@@ -121,8 +159,7 @@ class Memory():
             for i in range(len(self.memory_contents)):
                 if(self.memory_contents[i][2] > self.memory_contents[Max][2] and self.memory_contents[i][0] == "hole"):
                     Max = i
-            
-            assert(self.memory_contents[Max][2] >= segment[1])
+                    assert(self.memory_contents[Max][2] >= segment[1]) # i modified this assersion place, is it right?
 
             self.memory_contents.insert(Max, [segment[0], color, segment[1]])
 
@@ -141,6 +178,7 @@ class Memory():
             
         self.memory_contents.insert(0, ["hole", self.color_from_name(), holes_sum])
     
+
     def add_hole(self, starting_address, hole_size):
         assert(starting_address + hole_size <= self.memory_size)
         sum = 0
@@ -177,21 +215,25 @@ class Memory():
         return self.memory_contents
 
 
+'''
 # # Testing
-# Segments = [["Code", 5000],
-#             ["Data", 90],
-#             ["Stack", 15]]
+Segments = [["Code", 5000],
+            ["Data", 90],
+           ["Stack", 15]]
 
-# memory = Memory(5000)
+memory = Memory(5000)
 
-# memory.add_hole(2000, 500)
-# memory.add_hole(0,700)
-# memory.add_hole(1000, 1000)
+memory.add_hole(2000, 500)
 
-# print(memory.get_memoryContents())
-# memory.worst_fit(Segments, "P1")
-# print(memory.get_memoryContents())
-# memory.deallocate("P1")
-# print(memory.get_memoryContents())
-# memory.compact()
-# print(memory.get_memoryContents())
+memory.add_hole(0,700)
+
+memory.add_hole(1000, 1000)
+
+print(memory.get_memoryContents())
+memory.worst_fit(Segments, "P1")
+print(memory.get_memoryContents())
+memory.deallocate("P1")
+print(memory.get_memoryContents())
+memory.compact()
+print(memory.get_memoryContents())
+'''
