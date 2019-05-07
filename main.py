@@ -13,7 +13,7 @@ from memory import *
 
 
 
-FORM_CLASS, _ = loadUiType(path.join(path.dirname(__file__), "Memory.ui"))
+FORM_CLASS, _ = loadUiType(path.join(path.dirname(__file__), "MemoryV2.ui"))
 
 class MainApp(QMainWindow, FORM_CLASS):
 
@@ -88,3 +88,7 @@ if __name__ == '__main__':
     main()
 
 
+'''
+self.scene = QGraphicsScene()
+self.view.add(self.scene)
+'''
