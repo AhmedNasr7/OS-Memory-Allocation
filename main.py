@@ -59,6 +59,7 @@ class MainApp(QMainWindow, FORM_CLASS):
 
 
     def goToSegmentsWindow(self):
+        
         segmentsNo = self.NumSegments.value()
         self.segments_window = SegmentWindow()
         self.segments_window.set_segmentsNo(segmentsNo)
@@ -69,8 +70,9 @@ class MainApp(QMainWindow, FORM_CLASS):
         
     
     def receive_segmentsData(self, segList):
-        print(segList) # print as a proof of concept.
+        print(segList) # print for checking
         self.segments_list = segList
+        
         self.process_Num += 1
         self.segments_window.close()
         

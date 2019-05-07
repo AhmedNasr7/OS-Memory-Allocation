@@ -1,3 +1,4 @@
+
 import hashlib 
 import copy
 from operator import itemgetter
@@ -36,7 +37,7 @@ class Memory():
              self.memory_contents=copy.deepcopy(output_list)
       
     def best_fit(self, segments, process_name):
-        min_size = self.memory_contents[0][2]
+        min_size = self.memory_size + 1 
         hole_index = 0
 
         for segment in segments:
@@ -150,6 +151,7 @@ memory.add_hole(3000, 800)
 print(memory.get_memoryContents())
 memory.compact()
 print(memory.get_memoryContents())
+<<<<<<< HEAD
 # memory.Merge()
 print(memory.get_memoryContents())
 # memory.worst_fit(Segments, "P1")
