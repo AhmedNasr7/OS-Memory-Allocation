@@ -1,3 +1,4 @@
+
 import hashlib 
 import copy
 from operator import itemgetter
@@ -13,104 +14,34 @@ class Memory():
     def color_from_name(self, process_name="hole"):
         return hashlib.md5(process_name.encode()).hexdigest()[0:6]
 
-    def first_fit(self, segments_list , hole_list ,memory_size):
-
-        # starting address,name,size
-        temp2_list=[]
-        output_list=[]
-        temp_list=[]
-        temp=0
-        hole=0
-        hole_number=0
-        i=0
-
-
-        for n in range (len(segments_list)):
-            temp_hole_list=copy.deepcopy(hole_list)
-            segements=0
-            for j in range (len(segements_list[n])):
-
-             for k in range (len(temp_hole_list)):
-
-                if(segements_list[n][j][1]<=temp_hole_list[k][1]):
-
-                        #segement can be put in that hole
-                        
-                        temp_list.append([temp_hole_list[k][0],"P"+str(n)+":"+segements_list[n][j][0],segements_list[n][j][1]])#adding process segement
-                        temp_hole_list[k][1]=temp_hole_list[k][1]-segements_list[n][j][1] #adjusting size in hole list
-
-                        if(temp_hole_list[k][1]==0):
-                            temp_hole_list.pop(k)
-                        else:
-                            temp_hole_list[k][0]=temp_hole_list[k][0]+segements_list[n][j][1] #adjusting starting address in hole list
-                        segements=segements+1
-                        break 
-       
-            if(segements==len(segements_list[n])):
-                hole_list=copy.deepcopy(temp_hole_list)
-                temp2_list=copy.deepcopy(temp_list)
+    def first_fit(self,segments_list,process_name):
+        #name,color,size
+        output_list=copy.deepcopy(self.memory_contents)
+        color=self.color_from_name(process_name)                                                                                                                                                                                                                                                                                                                                                                                            
+        segements=0
         
-
-    ######################MERGE########################################################################################
-       
-        temp2_list=sorted(temp2_list,key=itemgetter(0))
-        while(temp<len(temp2_list)and hole<len(hole_list)):
-               
-               ###########temp will be put in output##############################################
-               if(temp2_list[temp][0]<hole_list[hole][0]):
-
-                if(i!=0):
-                 if(output_list[i-1][0]+output_list[i-1][2]!=temp2_list[temp][0]):
-                     output_list.append([output_list[i-1][0]+output_list[i-1][2],"Old Process",temp2_list[temp][0]-(output_list[i-1][0]+output_list[i-1][2])])
-                     i=i+1
-
-                output_list.append([temp2_list[temp][0],temp2_list[temp][1],temp2_list[temp][2]])
-                temp=temp+1
-                i=i+1
-                
-                 
-
-           ####hole will be put in output###########################################        
-               else:
-                   if(i!=0):
-                    if(output_list[i-1][0]+output_list[i-1][2]!=hole_list[hole][0]):
-                      output_list.append([output_list[i-1][0]+output_list[i-1][2],"Old Process",hole_list[hole][0]-(output_list[i-1][0]+output_list[i-1][2])])
-                      i=i+1
-                   output_list.append([hole_list[hole][0],"HOLE"+str(hole_number),hole_list[hole][1]])
-                   hole_number=hole_number+1
-                   hole=hole+1
-                   i=i+1
+        for i in range (len(segements_list)):
+            for j in range (len(output_list)):
+                if(output_list[j][0]=='hole'):
+                    if(output_list[j][2]>=segements_list[i][1]):
+                       output_list[j][2]= output_list[j][2]-segements_list[i][1]
+                       output_list.insert(j,[segements_list[i][0],color,segements_list[i][1]])
+                       if(output_list[j+1][2]==0):
+                           output_list.pop(j+1)
+                       segements=segements+1
+                       break
+            
                     
-    #####what's left off from any of the two lists##################################       
-        while(temp<len(temp2_list)):
-               if(i!=0):
-                    if(output_list[i-1][0]+output_list[i-1][2]!=temp2_list[temp][0]):
-                      output_list.append([output_list[i-1][0]+output_list[i-1][2],"Old Process",temp_list[temp][0]-(output_list[i-1][0]+output_list[i-1][2])])
-                      i=i+1
-               output_list.append([temp2_list[temp][0],temp2_list[temp][1],temp2_list[temp][2]])
-               temp=temp+1
-               i=i+1
-        while(hole<len(hole_list)):
-                if(i!=0):
-                    if(output_list[i-1][0]+output_list[i-1][2]!=hole_list[hole][0]):
-                      output_list.append([output_list[i-1][0]+output_list[i-1][2],"Old Process",hole_list[hole][0]-(output_list[i-1][0]+output_list[i-1][2])])
-                      i=i+1
-                output_list.append([hole_list[hole][0],"HOLE"+str(hole_number),hole_list[hole][1]])
-                hole_number=hole_number+1
-                hole=hole+1
-                i=i+1
-        n=len(output_list)
-        if(output_list[n-1][0]+output_list[n-1][2]!=memory_size):
-               starting_address=output_list[n-1][0]+output_list[n-1][2]
-               size=memory_size-starting_address
-               output_list.append([starting_address,"Old Process",size])
-        self.memory_contents=copy.deepycopy(output_list)
-        return self.memory_contents
+       
+            if(segements==len(segements_list)):
+             self.memory_contents=copy.deepcopy(output_list)
+      
+
 
 
 
     def best_fit(self, segments, process_name):
-        min_size = self.memory_contents[0][2]
+        min_size = self.memory_size + 1 
         hole_index = 0
 
         for segment in segments:
@@ -133,20 +64,7 @@ class Memory():
             else:
                 self.memory_contents[hole_index] = [process_name, self.color_from_name(process_name), segment_size]
 
-                
             
-            
-
-                        
-            
-
-                
-
-                
-
-            
-        
-
         
         
 
@@ -236,3 +154,7 @@ memory.deallocate("P1")
 print(memory.get_memoryContents())
 memory.compact()
 print(memory.get_memoryContents())
+<<<<<<< HEAD
+=======
+'''
+>>>>>>> 83d9a38d3ee8d9c56e8e115b73c5125547820a64
