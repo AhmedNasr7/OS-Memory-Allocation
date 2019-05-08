@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QVBoxLayout, QSize
     QPushButton, QCheckBox, QLabel, QLineEdit, QComboBox
 from PyQt5.QtGui import QIcon
 from segments import *
-from memory import *
+from memory import Memory
 
 
 
@@ -76,7 +76,6 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.process_Num += 1
         self.segments_window.close()
         
-
 
 def main():
     app = QApplication(sys.argv)
