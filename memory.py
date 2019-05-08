@@ -10,11 +10,11 @@ class Memory():
         self.memory_contents = [["default", self.color_from_name("default"), memory_size]]
         self.memory_size = memory_size
 
-        
-    def color_from_name(self, process_name="hole"):
+    @staticmethod
+    def color_from_name(process_name="hole"):
         return hashlib.md5(process_name.encode()).hexdigest()[0:6]
 
-    def first_fit(self,segments_list,process_name):
+    def first_fit(self, segments_list, process_name):
         #name,color,size
         output_list=copy.deepcopy(self.memory_contents)
         color=self.color_from_name(process_name)                                                                                                                                                                                                                                                                                                                                                                                            
@@ -88,13 +88,16 @@ class Memory():
         self.memory_contents.insert(0, ["hole", self.color_from_name(), holes_sum])
         
         
-    # def Merge(self):
-    #     memory_copy = []
-    #     for i in range(len(self.memory_contents) - 1):
-    #         if(self.memory_contents[i][0] == self.memory_contents[i+1][0]):
-    #             self.memory_contents[i][2] = self.memory_contents[i][2] + self.memory_contents[i+1][2]
-                
-    #             i = i + 1
+    def Merge(self):
+        Flag = 1
+        while(Flag):
+            Flag = 0
+            for i in range(len(self.memory_contents) - 1):
+                if(self.memory_contents[i][0] == self.memory_contents[i+1][0]):
+                    self.memory_contents[i][2] = self.memory_contents[i][2] + self.memory_contents[i+1][2]
+                    self.memory_contents.pop(i+1)
+                    Flag = 1
+                    break
                 
     
     def add_hole(self, starting_address, hole_size):
@@ -149,11 +152,11 @@ memory.add_hole(1000, 1000)
 memory.add_hole(3000, 800)
 
 print(memory.get_memoryContents())
-memory.compact()
+# memory.compact()
+# print(memory.get_memoryContents())
+memory.Merge()
 print(memory.get_memoryContents())
-<<<<<<< HEAD
-# memory.Merge()
-print(memory.get_memoryContents())
+
 # memory.worst_fit(Segments, "P1")
 # print(memory.get_memoryContents())
 # memory.deallocate("P1")
