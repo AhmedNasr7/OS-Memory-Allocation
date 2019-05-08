@@ -24,6 +24,7 @@ class MainApp(QMainWindow, FORM_CLASS):
         super(MainApp, self).__init__(parent)
         QMainWindow.__init__(self)
         self.setupUi(self)
+        self.processes_list = []
         self.setup_Ui()
         self.init_Buttons()
     
@@ -56,6 +57,8 @@ class MainApp(QMainWindow, FORM_CLASS):
         '''
         self.EnterSegments.clicked.connect(self.goToSegmentsWindow)
         self.SizeEnter.clicked.connect(self.createMemory)
+        self.deallocateBtn.clicked.connect(self.deallocate_process)
+
 
     def createMemory(self):
         try:
@@ -68,6 +71,15 @@ class MainApp(QMainWindow, FORM_CLASS):
             print(e) # create error msg to write only number here
         
 
+    def deallocate_process(self):
+        process = self.processesBox.currentText()
+        try:
+            self.memory.deallocate(process)
+        except Exception as e:
+            pass # create error msg, to choose memory size first
+
+
+        
     def goToSegmentsWindow(self):
         
         segmentsNo = self.NumSegments.value()
@@ -85,6 +97,9 @@ class MainApp(QMainWindow, FORM_CLASS):
         
         self.process_Num += 1
         self.segments_window.close()
+        self.processes_list.append('P' + str(self.process_Num))
+        self.processesBox.addItem('P' + str(self.process_Num))
+
         
         
 

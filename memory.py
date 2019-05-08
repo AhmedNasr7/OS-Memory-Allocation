@@ -29,9 +29,7 @@ class Memory():
                        if(output_list[j+1][2]==0):
                            output_list.pop(j+1)
                        segements=segements+1
-                       break
-            
-                    
+                       break            
        
             if(segements==len(segments_list)):
              self.memory_contents=copy.deepcopy(output_list)
