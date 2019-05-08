@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>491</width>
-    <height>707</height>
+    <width>504</width>
+    <height>743</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -36,7 +36,7 @@
     <item row="1" column="0" colspan="2">
      <widget class="QPushButton" name="pushButton_2">
       <property name="text">
-       <string>Done?!</string>
+       <string>Clear ?</string>
       </property>
      </widget>
     </item>
@@ -193,7 +193,7 @@
       <item row="11" column="1">
        <widget class="QPushButton" name="Clear">
         <property name="text">
-         <string>Clear!</string>
+         <string>Compact</string>
         </property>
        </widget>
       </item>
@@ -233,7 +233,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>:/newPrefix/Kitty.jpeg</pixmap>
+         <pixmap resource="Resource.qrc">:/newPrefix/Kitty.jpeg</pixmap>
         </property>
        </widget>
       </item>
@@ -249,8 +249,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>491</width>
-     <height>25</height>
+     <width>504</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -269,7 +269,7 @@
   </action>
  </widget>
  <resources>
-  <include location="Resources.qrc"/>
+  <include location="Resource.qrc"/>
  </resources>
  <connections/>
 </ui>
