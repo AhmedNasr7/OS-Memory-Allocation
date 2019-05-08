@@ -55,8 +55,18 @@ class MainApp(QMainWindow, FORM_CLASS):
         Buttons initializations and slots connections goes here
         '''
         self.EnterSegments.clicked.connect(self.goToSegmentsWindow)
+        self.SizeEnter.clicked.connect(self.createMemory)
 
-
+    def createMemory(self):
+        try:
+            memory_size = int(self.MemorySize.text())
+            if memory_size > 0:
+                self.memory = Memory(memory_size)
+            else:
+                pass # create error msg here
+        except ValueError as e:
+            print(e) # create error msg to write only number here
+        
 
     def goToSegmentsWindow(self):
         
@@ -75,6 +85,7 @@ class MainApp(QMainWindow, FORM_CLASS):
         
         self.process_Num += 1
         self.segments_window.close()
+        
         
 
 
