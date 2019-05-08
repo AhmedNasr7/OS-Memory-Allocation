@@ -29,9 +29,7 @@ class Memory():
                        if(output_list[j+1][2]==0):
                            output_list.pop(j+1)
                        segements=segements+1
-                       break
-            
-                    
+                       break            
        
             if(segements==len(segments_list)):
              self.memory_contents=copy.deepcopy(output_list)
@@ -134,34 +132,35 @@ class Memory():
         '''    
         return self.memory_contents
 
+def main():
+    # # Testing
+    Segments = [["Code", 50],
+                ["Data", 90],
+            ["Stack", 15]]
 
+    memory = Memory(5000)
 
-# # Testing
-Segments = [["Code", 50],
-            ["Data", 90],
-           ["Stack", 15]]
+    memory.add_hole(2000, 500)
 
-memory = Memory(5000)
+    memory.add_hole(0,700)
 
-memory.add_hole(2000, 500)
+    memory.add_hole(1000, 1000)
 
-memory.add_hole(0,700)
+    memory.add_hole(3000, 800)
 
-memory.add_hole(1000, 1000)
+    print(memory.get_memoryContents())
+    # memory.compact()
+    # print(memory.get_memoryContents())
+    memory.Merge()
+    print(memory.get_memoryContents())
+    # memory.worst_fit(Segments, "P1")
+    # print(memory.get_memoryContents())
+    # memory.deallocate("P1")
+    # print(memory.get_memoryContents())
+    # memory.compact()
+    # print(memory.get_memoryContents())
+    # memory.Merge()
+    # print(memory.get_memoryContents())
 
-memory.add_hole(3000, 800)
-
-print(memory.get_memoryContents())
-# memory.compact()
-# print(memory.get_memoryContents())
-memory.Merge()
-print(memory.get_memoryContents())
-
-# memory.worst_fit(Segments, "P1")
-# print(memory.get_memoryContents())
-# memory.deallocate("P1")
-# print(memory.get_memoryContents())
-# memory.compact()
-# print(memory.get_memoryContents())
-# memory.Merge()
-# print(memory.get_memoryContents())
+if __name__ == "__main__":
+    main()
