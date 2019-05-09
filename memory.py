@@ -40,7 +40,7 @@ class Memory():
 
         for segment in segments:
             segment_size = segment[1]
-            for i in range(len(self.memory_contents):
+            for i in range(len(self.memory_contents)):
                 hole = self.memory_contents[i]
                 if (hole[0] == 'hole'):
                     hole_size = hole[2]
