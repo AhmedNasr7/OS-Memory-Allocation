@@ -35,10 +35,6 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
         #self.processNo_label.setText('Process:   P' + str(self.process_Num))
 
 
-        
-
-
-
 
     def setup_Ui(self):
         self.setWindowTitle("Memory Management")
@@ -80,21 +76,18 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
             except Exception as e:
                 pass
         
-        # emit signal
         if len(self.segments_list) > 0:
             self.segmentsData_passingSig.emit(self.segments_list)
             self.processes_Num += 1
         
         else:
-            pass # a code should be added to handle the case with no enough data.
+            self.show_msgBox("You can't leave segment data table empty!") # a code should be added to handle the case with no enough data.
     
 
     def set_processesNum(self, num):
         self.processes_Num = num
         self.processNo_label.setText('Process:   P' + str(num))
-
-
-        
+      
 
     def clear(self):
           for i in range (self.rows_count):
@@ -105,3 +98,13 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
 
     def cancel(self):
         self.close()
+
+
+    def show_msgBox(self, msg):
+        self.msgBox = QMessageBox()
+        self.msgBox.setWindowTitle("Error!")
+        self.msgBox.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.msgBox.setIcon(QMessageBox.Warning)
+        self.msgBox.setText(msg)
+        self.msgBox.setStandardButtons(QMessageBox.Ok)
+        self.msgBox.exec_()
