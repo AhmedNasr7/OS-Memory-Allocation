@@ -40,6 +40,7 @@ class Memory():
 
         for segment in segments:
             segment_size = segment[1]
+            segment_name = segment[0]
             for i in range(len(self.memory_contents)):
                 hole = self.memory_contents[i]
                 if (hole[0] == 'hole'):
@@ -54,9 +55,9 @@ class Memory():
             if(left_over > 0):
                 best_hole[2] = left_over
                 self.memory_contents[hole_index] = best_hole
-                self.memory_contents.insert(hole_index, [process_name, self.color_from_name(process_name), segment_size])
+                self.memory_contents.insert(hole_index, [segment_name, self.color_from_name(process_name), segment_size])
             else:
-                self.memory_contents[hole_index] = [process_name, self.color_from_name(process_name), segment_size]
+                self.memory_contents[hole_index] = [segment_name, self.color_from_name(process_name), segment_size]
 
     def worst_fit(self, Segments, process_name="default"):      
         color = self.color_from_name(process_name)
