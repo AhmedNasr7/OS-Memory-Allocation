@@ -86,7 +86,10 @@ class MainApp(QMainWindow, FORM_CLASS):
             except ValueError as e:
                 self.show_msgBox(self.wrong_input_text, 'Please Make sure you entered numeric values.') # error msg here, plz write numeric value in the address or/and the size of the hole.
             except AssertionError as error:
-                self.show_msgBox('Memory Limit Exceeded!\n' + str(error)) #error msg here, hole size or base address are beyond  memory size
+                if str(error) == "Can't add a hole here! There's already a hole located in this address":
+                    self.show_msgBox(str(error))
+                else:
+                    self.show_msgBox('Memory Limit Exceeded!\n' + str(error)) #error msg here, hole size or base address are beyond  memory size
             except Exception as e:
                 self.show_msgBox("Error!\nSorry, We're facing unexpected error") # erorr msg here, unxpected error
         else:
