@@ -35,12 +35,13 @@ class Memory():
             
       
     def best_fit(self, segments, process_name):
-        min_size = self.memory_size + 1 
-        hole_index = 0
 
+        # segments = [name, size]
         for segment in segments:
-            segment_size = segment[1]
+            hole_index = 0
             segment_name = segment[0]
+            segment_size = segment[1]
+            min_size = self.memory_size + 1
             for i in range(len(self.memory_contents)):
                 hole = self.memory_contents[i]
                 if (hole[0] == 'hole'):
@@ -48,10 +49,9 @@ class Memory():
                     if ((hole_size >= segment_size) and (hole_size < min_size)):
                         min_size = hole_size
                         hole_index = i
-            
             best_hole = self.memory_contents[hole_index]
             hole_size = best_hole[2]
-            left_over = segment_size - hole_size
+            left_over = hole_size - segment_size
             if(left_over > 0):
                 best_hole[2] = left_over
                 self.memory_contents[hole_index] = best_hole
@@ -163,6 +163,19 @@ def main():
     # print(memory.get_memoryContents())
     # memory.Merge()
     # print(memory.get_memoryContents())
+
+    '''
+    # previously wrong test case --> fixed
+    segements_list=[['code',20],['stack',50],['local',100]]
+    Memory1=Memory(290)
+    Memory1.add_hole(0,80)
+    Memory1.add_hole(90,200)
+    print(segements_list)
+    print(Memory1.get_memoryContents())
+    Memory1.best_fit(segements_list, 'abc')
+    print(Memory1.get_memoryContents())
+
+    '''
 
 if __name__ == "__main__":
     main()
