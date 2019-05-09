@@ -96,12 +96,13 @@ class MainApp(QMainWindow, FORM_CLASS):
     def deallocate_process(self):
 
         process = self.processesBox.currentText()
-        try:
+        if(self.memory_created):
             self.memory.deallocate(process)
             process_index = self.processesBox.currentIndex()
             self.processesBox.removeItem(process_index)
+        else:
+            pass # msg error here, create memory first
 
-        except Exception as e:
             print(e) # create error msg, to choose memory size first
 
     def goToSegmentsWindow(self):
