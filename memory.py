@@ -30,9 +30,9 @@ class Memory():
                            output_list.pop(j+1)
                        segements=segements+1
                        break            
-       
-            if(segements==len(segments_list)):
-             self.memory_contents=copy.deepcopy(output_list)
+        assert(segements==len(segments_list)),"Not Enough memory to allocate this process"
+        self.memory_contents=copy.deepcopy(output_list)
+            
       
     def best_fit(self, segments, process_name):
         min_size = self.memory_size + 1 
