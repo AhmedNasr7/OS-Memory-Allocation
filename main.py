@@ -25,7 +25,6 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.setupUi(self)
         self.processes_list = []
         self.memory_created = 0
-        self.wrong_input_text = "You have entered wrong input"
         self.setup_Ui()
         self.init_Buttons()
     
@@ -71,9 +70,9 @@ class MainApp(QMainWindow, FORM_CLASS):
                 self.memory_created = 1
                 
             else:
-                self.show_msgBox(self.wrong_input_text, 'Set Memory Size please!') # create error msg here
+                self.show_msgBox('Memory Size error!\nSet Memory Size please!') # create error msg here
         except ValueError as e:
-            self.show_msgBox(self.wrong_input_text, 'The Memory Size Text Box accepts numeric values only.') # create error msg to write only number here
+            self.show_msgBox('Memory Size error!\nMemory Size Text Box accepts numeric values only.') # create error msg to write only number here
 
 
     def add_hole(self):
@@ -85,15 +84,15 @@ class MainApp(QMainWindow, FORM_CLASS):
                 if hole_size > 0:
                     self.memory.add_hole(hole_address, hole_size)
                 else:
-                    self.show_msgBox(self.wrong_input_text, 'Hole cannot be of size 0') # error msg here, plz add a proper hole size
+                    self.show_msgBox('Hole Size Value Error!\nHole cannot be of size 0') # error msg here, plz add a proper hole size
             except ValueError as e:
                 self.show_msgBox(self.wrong_input_text, 'Please Make sure you entered numeric values.') # error msg here, plz write numeric value in the address or/and the size of the hole.
             except AssertionError as error:
-                self.show_msgBox('Memory Limit Exceeded!', str(error)) #error msg here, hole size or base address are beyond  memory size
+                self.show_msgBox('Memory Limit Exceeded!\n' + str(error)) #error msg here, hole size or base address are beyond  memory size
             except Exception as e:
-                self.show_msgBox('Error!', "Sorry, We're facing unexpected error") # erorr msg here, unxpected error
+                self.show_msgBox("Error!\nSorry, We're facing unexpected error") # erorr msg here, unxpected error
         else:
-            self.show_msgBox('No Memory Found.', 'Please Create Memory before creating a hole!') # error msg here, plz create a memory by assigning its size above
+            self.show_msgBox('No Memory Found.\nPlease Create Memory before creating a hole!') # error msg here, plz create a memory by assigning its size above
 
 
     def deallocate_process(self):
@@ -104,18 +103,24 @@ class MainApp(QMainWindow, FORM_CLASS):
             process_index = self.processesBox.currentIndex()
             self.processesBox.removeItem(process_index)
         else:
-            self.show_msgBox('No Memory Found.', 'Please Create Memory first!') # msg error here, create memory first
+            self.show_msgBox('No Memory Found.\nPlease Create Memory first!') # msg error here, create memory first
 
 
     def goToSegmentsWindow(self):
         
-        segmentsNo = self.NumSegments.value()
-        self.segments_window = SegmentWindow()
-        self.segments_window.set_segmentsNo(segmentsNo)
-        self.segments_window.show()
-        self.segments_window.set_processesNum(self.process_Num + 1)
+        if (self.memory_created):
+            segmentsNo = self.NumSegments.value()
+            if(segmentsNo > 0):
+                self.segments_window = SegmentWindow()
+                self.segments_window.set_segmentsNo(segmentsNo)
+                self.segments_window.show()
+                self.segments_window.set_processesNum(self.process_Num + 1)
 
-        self.segments_window.segmentsData_passingSig.connect(self.receive_segmentsData)
+                self.segments_window.segmentsData_passingSig.connect(self.receive_segmentsData)
+            else:
+                self.show_msgBox("Input Value Error\nNumber of segments must be more then 0") # error handling
+        else:
+            self.show_msgBox("No Memory Found.\nPlease Create Memory first!") # error handling
         
     
     def receive_segmentsData(self, segList):
@@ -127,13 +132,11 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.processesBox.addItem('P' + str(self.process_Num))
 
 
-    def show_msgBox(self,text,  msg):
+    def show_msgBox(self, msg):
         self.msgBox = QMessageBox()
         self.msgBox.setWindowTitle("Error!")
-        self.msgBox.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.msgBox.setIcon(QMessageBox.Warning)
-        self.msgBox.setText(text)
-        self.msgBox.setInformativeText(msg)
+        self.msgBox.setText(msg)
         self.msgBox.setStandardButtons(QMessageBox.Ok)
         self.msgBox.exec_()
 
