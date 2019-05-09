@@ -73,15 +73,16 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
                 size =  int(self.table.takeItem(i, 2).text())
                 segment = [name, size] # color is to be generated here
                 self.segments_list.append(segment)
-            except Exception as e:
-                pass
+            except ValueError as e:
+                self.show_msgBox("Input Value Error!\nSize must be numerical value.") # a code should be added to handle the case with no enough data.
+
         
         if len(self.segments_list) > 0:
             self.segmentsData_passingSig.emit(self.segments_list)
             self.processes_Num += 1
         
         else:
-            self.show_msgBox("You can't leave segment data table empty!") # a code should be added to handle the case with no enough data.
+            self.show_msgBox("Input Error!\nYou can't leave segment data table empty!") # a code should be added to handle the case with no enough data.
     
 
     def set_processesNum(self, num):

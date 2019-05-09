@@ -99,7 +99,7 @@ class Memory():
                 
     
     def add_hole(self, starting_address, hole_size):
-        assert starting_address + hole_size <= self.memory_size, "Starting Address and/or hole size are not proper values."
+        assert starting_address + hole_size <= self.memory_size, "Hole Address or Size exceeds memory limits, please reassign their values"
         sum = 0
         for i in range(len(self.memory_contents)):
             sum = sum + self.memory_contents[i][2]
@@ -128,7 +128,7 @@ class Memory():
 
     def get_memoryContents(self):
         '''
-        a function that retutrns the list of memory processes/segments
+        return list of memory processes/segments
         '''    
         return self.memory_contents
 
