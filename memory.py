@@ -13,6 +13,7 @@ class Memory():
     def color_from_name(process_name="hole"):
         return hashlib.md5(process_name.encode()).hexdigest()[0:6]
 
+
     def first_fit(self, segments_list, process_name):
         #name,color,size
         output_list=copy.deepcopy(self.memory_contents)

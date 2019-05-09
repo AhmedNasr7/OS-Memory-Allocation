@@ -24,10 +24,10 @@ class MainApp(QMainWindow, FORM_CLASS):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.processes_list = []
-        self.memory_created = 0
+        self.memory_created = 0 # use this variable as a flag
+        self.process_name = ''
         self.setup_Ui()
         self.init_Buttons()
-    
 
 
     def setup_Ui(self):
@@ -38,8 +38,6 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.setWindowTitle("Memory Management")
         self.NumSegments.setMinimum(0)
         self.NumSegments.setMaximum(999)
-
-        
         
 
     def center_window(self):
@@ -48,8 +46,6 @@ class MainApp(QMainWindow, FORM_CLASS):
         centerPoint = QDesktopWidget().availableGeometry().center()
         qtRectangle.moveCenter(centerPoint)
         self.move(qtRectangle.topLeft())
-        
-
 
     def init_Buttons(self):
         '''
@@ -59,7 +55,9 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.SizeEnter.clicked.connect(self.createMemory)
         self.AddHole_button.clicked.connect(self.add_hole)
         self.deallocate_button.clicked.connect(self.deallocate_process)
-        
+        self.allocate_button.clicked.connect(self.allocate_memory)
+        self.compact_button.clicked.connect(self.compact_memory)
+        self.clear_button.clicked.connect(self.clear_memory)
     
     def createMemory(self):
 
@@ -95,13 +93,39 @@ class MainApp(QMainWindow, FORM_CLASS):
             self.show_msgBox('No Memory Found.\nPlease Create Memory before creating a hole!') # error msg here, plz create a memory by assigning its size above
 
 
+    def allocate_memory(self):
+        try:
+            if(self.memory_created):
+                algorithm = self.algorithms_list.currentText()
+                if len(self.process_name) > 0:
+                    if algorithm == 'First Fit':
+                        self.memory.first_fit(self.segments_list, self.process_name)
+                    elif algorithm == 'Best Fit':
+                        self.memory.best_fit(self.segments_list, self.process_name)
+                    else:
+                        self.memory.worst_fit(self.segments_list, self.process_name)
+                else:
+                    self.show_msgBox('No Selected Process!\nAdd Segments First to be able to allocate a process') # error msg here
+            else:
+                self.show_msgBox('No Memory Found.\nPlease Create Memory before allocate processes!') # error msg here, plz create a memory by assigning its size above
+        except Exception as e:
+            pass # error code handling to be added
+
+
+
+
+
     def deallocate_process(self):
 
         process = self.processesBox.currentText()
         if(self.memory_created):
-            self.memory.deallocate(process)
-            process_index = self.processesBox.currentIndex()
-            self.processesBox.removeItem(process_index)
+            if len(process) > 0:
+                self.memory.deallocate(process)
+                process_index = self.processesBox.currentIndex()
+                self.processesBox.removeItem(process_index)
+            else:
+                self.show_msgBox('No Process Found.\nPlease Add process first!') # msg error here, create memory first
+
         else:
             self.show_msgBox('No Memory Found.\nPlease Create Memory first!') # msg error here, create memory first
 
@@ -118,7 +142,7 @@ class MainApp(QMainWindow, FORM_CLASS):
 
                 self.segments_window.segmentsData_passingSig.connect(self.receive_segmentsData)
             else:
-                self.show_msgBox("Input Value Error\nNumber of segments must be more then 0") # error handling
+                self.show_msgBox("Input Value Error\nNumber of segments must be more than 0") # error handling
         else:
             self.show_msgBox("No Memory Found.\nPlease Create Memory first!") # error handling
         
@@ -130,6 +154,23 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.segments_window.close()
         self.processes_list.append('P' + str(self.process_Num))
         self.processesBox.addItem('P' + str(self.process_Num))
+        self.process_name = 'P' + str(self.process_Num)
+
+
+    def compact_memory(self):
+        if(self.memory_created):
+            self.memory.compact()
+        else:
+            self.show_msgBox("No Memory Found.\nPlease Create Memory first!")
+
+
+    def clear_memory(self):
+        if(self.memory_created):
+            del self.memory # deleting memory object
+            self.memory_created = 0 # set flag = 0
+            # code to delete or remove memory contents in graphics should be added here 
+        else:
+            self.show_msgBox("No Memory Found.\nPlease Create Memory first!")
 
 
     def show_msgBox(self, msg):
