@@ -167,10 +167,30 @@ class MainApp(QMainWindow, FORM_CLASS):
     def clear_memory(self):
         if(self.memory_created):
             del self.memory # deleting memory object
-            self.memory_created = 0 # set flag = 0
+            self.memory_created = 0 # set memory existence flag = 0
+            self.clear_fields()
             # code to delete or remove memory contents in graphics should be added here 
         else:
             self.show_msgBox("No Memory Found.\nPlease Create Memory first!")
+
+    def clear_fields(self):
+        self.MemorySize.setText('0')
+        self.HoleAddress.setText('0')
+        self.HoleSize.setText('0')
+        self.NumSegments.setValue(0)
+        processesNumber = int(self.processesBox.count())
+        print(processesNumber)
+        if processesNumber > 0:
+            for i in range(processesNumber):
+                process = self.processesBox.currentText()
+                if len(process) > 0:
+                    process_index = self.processesBox.currentIndex()
+                    self.processesBox.removeItem(process_index)
+        self.process_Num = 0
+        self.process_name = ''
+        self.processes_list = []
+        self.segments_list = []
+
 
 
     def show_msgBox(self, msg):
@@ -186,7 +206,6 @@ def main():
     app = QApplication(sys.argv)
     window = MainApp()
     window.show()
-
     sys.exit(app.exec_())
 
 

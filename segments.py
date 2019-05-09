@@ -18,8 +18,6 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
 
     segmentsData_passingSig = pyqtSignal('QVariantList')
 
-
-
     def __init__(self, parent= None):
         super(SegmentWindow, self).__init__(parent)
         QMainWindow.__init__(self)
@@ -67,13 +65,14 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
     def add_segments(self):
         for i in range(self.rows_count):
             try:
-                name = self.table.takeItem(i, 1).text()
-                size =  int(self.table.takeItem(i, 2).text())
+                name = self.table.takeItem(i, 0).text()
+                size =  int(self.table.takeItem(i, 1).text())
                 segment = [name, size] # color is to be generated here
                 self.segments_list.append(segment)
             except ValueError as e:
                 self.show_msgBox("Input Value Error!\nSize must be numerical value.") # a code should be added to handle the case with no enough data.
-
+            
+            # code to handle sizes that exceed memory limit?
         
         if len(self.segments_list) > 0:
             self.segmentsData_passingSig.emit(self.segments_list)
