@@ -24,7 +24,7 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
         super(SegmentWindow, self).__init__(parent)
         QMainWindow.__init__(self)
         self.setupUi(self)
-        self.columns_count = 3
+        self.columns_count = 2
         self.rows_count = 0 
         self.table_width = 430
         self.table_height = 590
@@ -35,21 +35,19 @@ class SegmentWindow(QMainWindow, FORM_CLASS):
         #self.processNo_label.setText('Process:   P' + str(self.process_Num))
 
 
-
     def setup_Ui(self):
         self.setWindowTitle("Memory Management")
-
     
 
     def setup_table(self):
      
         self.table.setRowCount(self.rows_count)
         self.table.setColumnCount(self.columns_count)
-        columnsLabels = ['Index', 'Segment Name', 'Size']
+        columnsLabels = ['Segment Name', 'Size']
         self.table.setHorizontalHeaderLabels(columnsLabels)
         self.table.setFixedSize(self.table_width, self.table_height)
         for i in range(self.columns_count):
-            self.table.setColumnWidth(i, self.table_width/3)
+            self.table.setColumnWidth(i, self.table_width/2)
 
 
 

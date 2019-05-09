@@ -110,8 +110,8 @@ class MainApp(QMainWindow, FORM_CLASS):
                 self.show_msgBox('No Memory Found.\nPlease Create Memory before allocate processes!') # error msg here, plz create a memory by assigning its size above
         except Exception as e:
             pass # error code handling to be added
-
-
+        except AssertionError as error:
+            self.show_msgBox('Memory Limit Exceeded!\n' + str(error))
 
 
 
