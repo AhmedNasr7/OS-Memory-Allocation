@@ -12,7 +12,6 @@ from segments import *
 from memory import Memory
 
 
-
 FORM_CLASS, _ = loadUiType(path.join(path.dirname(__file__), "MemoryV2.ui"))
 
 class MainApp(QMainWindow, FORM_CLASS):
@@ -24,6 +23,8 @@ class MainApp(QMainWindow, FORM_CLASS):
         super(MainApp, self).__init__(parent)
         QMainWindow.__init__(self)
         self.setupUi(self)
+        self.processes_list = []
+        self.memory_created = 0
         self.setup_Ui()
         self.init_Buttons()
     
@@ -55,6 +56,20 @@ class MainApp(QMainWindow, FORM_CLASS):
         Buttons initializations and slots connections goes here
         '''
         self.EnterSegments.clicked.connect(self.goToSegmentsWindow)
+        self.SizeEnter.clicked.connect(self.createMemory)
+        
+    
+    def createMemory(self):
+        try:
+            memory_size = int(self.MemorySize.text())
+            if memory_size > 0:
+                self.memory = Memory(memory_size)
+                self.memory_created = 1
+            else:
+                pass # create error msg here
+        except ValueError as e:
+            print(e) # create error msg to write only number here
+
 
 
 
