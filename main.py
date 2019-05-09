@@ -57,6 +57,7 @@ class MainApp(QMainWindow, FORM_CLASS):
         '''
         self.EnterSegments.clicked.connect(self.goToSegmentsWindow)
         self.SizeEnter.clicked.connect(self.createMemory)
+        self.AddHole_button.clicked.connect(self.add_hole)
         self.deallocate_button.clicked.connect(self.deallocate_process)
         
     
@@ -72,9 +73,28 @@ class MainApp(QMainWindow, FORM_CLASS):
         except ValueError as e:
             print(e) # create error msg to write only number here
 
+    def add_hole(self):
+
+        if(self.memory_created):
+            try:
+                hole_address = int(self.HoleAddress.text())
+                hole_size = int(self.HoleSize.text())
+                if hole_size > 0:
+                    self.memory.add_hole(hole_address, hole_size)
+                else:
+                    pass # error msg here, plz add a proper hole size
+            except ValueError as e:
+                print(e) # error msg here, plz write numeric value in the address or/and the size of the hole.
+            except AssertionError as error:
+                print(error) # error msg here, hole size or base address are beyond  memory size
+            except Exception as e:
+                print(e) # erorr msg here, unxpected error
+        else:
+            pass # error msg here, plz create a memory by assigning its size above
 
 
     def deallocate_process(self):
+
         process = self.processesBox.currentText()
         try:
             self.memory.deallocate(process)

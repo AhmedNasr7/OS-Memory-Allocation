@@ -1,4 +1,3 @@
-
 import hashlib 
 import copy
 from operator import itemgetter
@@ -9,7 +8,6 @@ class Memory():
         
         self.memory_contents = [["default", self.color_from_name("default"), memory_size]]
         self.memory_size = memory_size
-        print("memory size: ", self.memory_size)
 
     @staticmethod
     def color_from_name(process_name="hole"):
@@ -76,7 +74,8 @@ class Memory():
                 self.memory_contents.pop(Max+1)
             else:
                 self.memory_contents[Max+1][2] = self.memory_contents[Max+1][2] - segment[1]
-            
+
+
     def compact(self):
         holes_sum = 0
         for hole in self.memory_contents[:]:
@@ -100,7 +99,7 @@ class Memory():
                 
     
     def add_hole(self, starting_address, hole_size):
-        assert(starting_address + hole_size <= self.memory_size)
+        assert starting_address + hole_size <= self.memory_size, "Starting Address and/or hole size are not proper values."
         sum = 0
         for i in range(len(self.memory_contents)):
             sum = sum + self.memory_contents[i][2]
