@@ -62,6 +62,7 @@ class MainApp(QMainWindow, FORM_CLASS):
         
     
     def createMemory(self):
+        self.show_msgBox("abcd")
         try:
             memory_size = int(self.MemorySize.text())
             if memory_size > 0:
@@ -123,8 +124,17 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.segments_window.close()
         self.processes_list.append('P' + str(self.process_Num))
         self.processesBox.addItem('P' + str(self.process_Num))
-        
-        
+
+
+    def show_msgBox(self, msg):
+        self.msgBox = QMessageBox()
+        self.msgBox.setIcon(QMessageBox.Warning)
+        self.msgBox.setText("You have entered wrong input")
+        self.msgBox.setInformativeText(msg)
+        self.msgBox.setWindowTitle("Error!")
+        self.msgBox.setStandardButtons(QMessageBox.Ok)
+        self.msgBox.exec_()
+
 
 def main():
     app = QApplication(sys.argv)
