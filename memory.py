@@ -9,6 +9,7 @@ class Memory():
         
         self.memory_contents = [["default", self.color_from_name("default"), memory_size]]
         self.memory_size = memory_size
+        print("memory size: ", self.memory_size)
 
     @staticmethod
     def color_from_name(process_name="hole"):

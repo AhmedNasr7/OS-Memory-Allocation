@@ -218,10 +218,10 @@
        </widget>
       </item>
       <item row="13" column="1">
-       <widget class="QComboBox" name="comboBox"/>
+       <widget class="QComboBox" name="processesBox"/>
       </item>
       <item row="14" column="0" colspan="2">
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="deallocate_button">
         <property name="text">
          <string>Deallocate !!!</string>
         </property>
@@ -250,7 +250,7 @@
      <x>0</x>
      <y>0</y>
      <width>504</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

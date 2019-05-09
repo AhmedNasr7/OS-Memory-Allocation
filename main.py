@@ -57,6 +57,7 @@ class MainApp(QMainWindow, FORM_CLASS):
         '''
         self.EnterSegments.clicked.connect(self.goToSegmentsWindow)
         self.SizeEnter.clicked.connect(self.createMemory)
+        self.deallocate_button.clicked.connect(self.deallocate_process)
         
     
     def createMemory(self):
@@ -65,6 +66,7 @@ class MainApp(QMainWindow, FORM_CLASS):
             if memory_size > 0:
                 self.memory = Memory(memory_size)
                 self.memory_created = 1
+                
             else:
                 pass # create error msg here
         except ValueError as e:
@@ -72,6 +74,15 @@ class MainApp(QMainWindow, FORM_CLASS):
 
 
 
+    def deallocate_process(self):
+        process = self.processesBox.currentText()
+        try:
+            self.memory.deallocate(process)
+            process_index = self.processesBox.currentIndex()
+            self.processesBox.removeItem(process_index)
+
+        except Exception as e:
+            print(e) # create error msg, to choose memory size first
 
     def goToSegmentsWindow(self):
         
@@ -87,9 +98,11 @@ class MainApp(QMainWindow, FORM_CLASS):
     def receive_segmentsData(self, segList):
         print(segList) # print for checking
         self.segments_list = segList
-        
         self.process_Num += 1
         self.segments_window.close()
+        self.processes_list.append('P' + str(self.process_Num))
+        self.processesBox.addItem('P' + str(self.process_Num))
+        
         
 
 def main():
