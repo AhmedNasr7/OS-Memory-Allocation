@@ -65,7 +65,7 @@ class Memory():
         for segment in Segments:
             Max = 0
             for i in range(len(self.memory_contents)):
-                if(self.memory_contents[i][2] > self.memory_contents[Max][2] and self.memory_contents[i][0] == "hole"):
+                if(self.memory_contents[i][2] >= self.memory_contents[Max][2] and self.memory_contents[i][0] == "hole"):
                     Max = i
         
             assert(self.memory_contents[Max][2] >= segment[1]), "Memory limit Excedded"
@@ -164,18 +164,20 @@ def main():
     # memory.Merge()
     # print(memory.get_memoryContents())
 
-    '''
-    # previously wrong test case --> fixed
-    segements_list=[['code',20],['stack',50],['local',100]]
-    Memory1=Memory(290)
-    Memory1.add_hole(0,80)
-    Memory1.add_hole(90,200)
-    print(segements_list)
-    print(Memory1.get_memoryContents())
-    Memory1.best_fit(segements_list, 'abc')
-    print(Memory1.get_memoryContents())
+    
+    # # previously wrong test case --> fixed
+    # segements_list=[['code',100],['stack',30]]
+    # Memory1=Memory(350)
+    # Memory1.add_hole(0,100)
+    # Memory1.add_hole(150,100)
+    # Memory1.add_hole(300,50)
+    # print(Memory1.get_memoryContents())
+    # # print(segements_list)
+    # # print(Memory1.get_memoryContents())
+    # Memory1.worst_fit(segements_list, 'abc')
+    # print(Memory1.get_memoryContents())
 
-    '''
+    
 
 if __name__ == "__main__":
     main()
