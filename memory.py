@@ -39,6 +39,7 @@ class Memory():
         # segments = [name, size]
         for segment in segments:
             hole_index = 0
+            Flag = False
             segment_name = segment[0]
             segment_size = segment[1]
             min_size = self.memory_size + 1
@@ -49,6 +50,8 @@ class Memory():
                     if ((hole_size >= segment_size) and (hole_size < min_size)):
                         min_size = hole_size
                         hole_index = i
+                        Flag = True
+            assert(Flag), "Not Enough memory to allocate this process"
             best_hole = self.memory_contents[hole_index]
             hole_size = best_hole[2]
             left_over = hole_size - segment_size
@@ -59,16 +62,20 @@ class Memory():
             else:
                 self.memory_contents[hole_index] = [segment_name, self.color_from_name(process_name), segment_size]
 
-    def worst_fit(self, Segments, process_name="default"):      
+    def worst_fit(self, Segments, process_name):      
         color = self.color_from_name(process_name)
 
         for segment in Segments:
             Max = 0
+            Flag = False
             for i in range(len(self.memory_contents)):
                 if(self.memory_contents[i][2] >= self.memory_contents[Max][2] and self.memory_contents[i][0] == "hole"):
                     Max = i
+                    Flag = True
         
-            assert(self.memory_contents[Max][2] >= segment[1]), "Memory limit Excedded"
+            assert(Flag and self.memory_contents[Max][2] >= segment[1]), "Not Enough memory to allocate this process"
+            # print(self.memory_contents[Max][2])
+            # print(segment[1])
 
             self.memory_contents.insert(Max, [segment[0], color, segment[1]])
 
@@ -133,6 +140,12 @@ class Memory():
         return list of memory processes/segments
         '''    
         return self.memory_contents
+
+    def get_memorySize(self):
+        '''
+        return list of memory processes/segments
+        '''    
+        return self.memory_size
 
 def main():
     # # Testing
