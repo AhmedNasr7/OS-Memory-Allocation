@@ -68,6 +68,7 @@ class MainApp(QMainWindow, FORM_CLASS):
         iterator = 0
         start=0
         end=0
+        self.scene.clear()
         self.memory.Merge() 
         for element in self.memory.get_memoryContents():
             self.scene.addRect(
