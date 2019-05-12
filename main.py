@@ -66,6 +66,8 @@ class MainApp(QMainWindow, FORM_CLASS):
 
     def DrawMemory(self):
         iterator = 0
+        start=0
+        end=0
         for element in self.memory.get_memoryContents():
             self.scene.addRect(
                 0,
@@ -74,10 +76,19 @@ class MainApp(QMainWindow, FORM_CLASS):
                 (element[2] / self.memory.get_memorySize()) *
                 self.memory_height, self.red,
                 hex_to_qcolor(self.memory.color_from_name(element[1])))
+            end=end+element[2]
+            if(iterator==0): 
+             self.scene.addText(str(start)).setPos(self.memory_width,
+                                                        (iterator / self.memory.get_memorySize()) * self.memory_height)
+            self.scene.addText(str(end)).setPos(self.memory_width,
+                                                 ((iterator+element[2]-1 )/ self.memory.get_memorySize()) * self.memory_height)
+                                                 
+                                            
             self.scene.addText(element[0]).setPos(
                 0,
                 (iterator / self.memory.get_memorySize()) * self.memory_height)
             iterator = iterator + element[2]
+            start=start+element[2]
 
     def createMemory(self):
 
