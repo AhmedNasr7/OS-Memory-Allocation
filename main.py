@@ -34,7 +34,7 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.scene = QGraphicsScene()
         self.red = QColor(qRgb(172, 50, 99))
         self.blue = QColor(qRgb(50, 150, 203))
-        self.memory_width = 160
+        self.memory_width = 150
         self.memory_height = 600
         self.view.setScene(self.scene)
         self.setup_Ui()
@@ -46,6 +46,7 @@ class MainApp(QMainWindow, FORM_CLASS):
         """
         self.center_window()
         self.setWindowTitle("Memory Management")
+        self.setFixedSize(530, 750)
         self.NumSegments.setMinimum(0)
         self.NumSegments.setMaximum(999)
 
@@ -70,6 +71,7 @@ class MainApp(QMainWindow, FORM_CLASS):
 
     def DrawMemory(self):
         iterator = 0
+        self.scene.clear()
         for element in self.memory.get_memoryContents():
             self.scene.addRect(
                 0,  # x
@@ -79,8 +81,11 @@ class MainApp(QMainWindow, FORM_CLASS):
                 self.red,
                 hex_to_qcolor(self.memory.color_from_name(element[1])),
             )
-            self.scene.addText(element[0] + " {} - {}".format(iterator, iterator + element[2])).setPos(
+            self.scene.addText(element[0]).setPos(
                 0, (iterator / self.memory.get_memorySize()) * self.memory_height
+            )
+            self.scene.addText(str(iterator)).setPos(
+                self.memory_width, (iterator / self.memory.get_memorySize()) * self.memory_height
             )
             iterator = iterator + element[2]
 
