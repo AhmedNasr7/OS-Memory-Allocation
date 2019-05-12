@@ -6,7 +6,7 @@ class Memory():
 
     def __init__(self, memory_size):
         
-        self.memory_contents = [["default", self.color_from_name("default"), memory_size]]
+        self.memory_contents = [["old_process", self.color_from_name("old_process"), memory_size]]
         self.memory_size = memory_size
 
     @staticmethod
@@ -113,7 +113,7 @@ class Memory():
         for i in range(len(self.memory_contents)):
             sum = sum + self.memory_contents[i][2]
             if(sum > starting_address):
-                assert(self.memory_contents[i][0] == "default"), "Can't add a hole here"
+                assert(self.memory_contents[i][0] == "old_process"), "Can't add a hole here"
                 assert(sum - (starting_address + hole_size) >= 0), "Hole size excedded the limits"
                 if sum - (starting_address + hole_size) == 0:
                     self.memory_contents[i][2] -= hole_size
@@ -122,7 +122,7 @@ class Memory():
                 else:
                     self.memory_contents[i][2] = self.memory_contents[i][2] - (sum - starting_address)
                     self.memory_contents.insert(i+1, ["hole", self.color_from_name("hole"), hole_size])
-                    self.memory_contents.insert(i+2, ["default", self.color_from_name("default"), sum - (starting_address + hole_size)])
+                    self.memory_contents.insert(i+2, ["old_process", self.color_from_name("old_process"), sum - (starting_address + hole_size)])
                     if (self.memory_contents[i][2] == 0):
                         self.memory_contents.pop(i)
                     break
