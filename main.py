@@ -81,8 +81,9 @@ class MainApp(QMainWindow, FORM_CLASS):
             end=end+element[2]
             if(iterator==0): 
              self.scene.addText(str(start)).setPos(self.memory_width,
-                                                        (iterator / self.memory.get_memorySize()) * self.memory_height)
-            self.scene.addText(str(end)).setPos(self.memory_width,
+                                                      (iterator / self.memory.get_memorySize()) * self.memory_height)
+            if(element[2]!=0):     
+             self.scene.addText(str(end)).setPos(self.memory_width,
                                                  ((iterator+element[2]-0.5 )/ self.memory.get_memorySize()) * self.memory_height)
                                                  
                                             
